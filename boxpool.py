@@ -59,44 +59,52 @@ def assign_party_animals_to_cells_randomly(party_animals):
 def print_box_pool(box_pool, cell_assignment):
     #for each row lead with a space to provide room for row team name
     
+    #handle horizontal vertices via linestr
+    linestr = ""
+    for i in range(100):
+        linestr+="-"
+
     #print col wise team name
     print("  ",box_pool["teams"][0].rjust(50-math.floor(len(box_pool["teams"][0])/2)))
 
     #print top row scores
     rowstr = "  "
     for score in box_pool["cols"]:
-        rowstr = rowstr+ "     "+str(score)+"    "
+        rowstr = rowstr+ "|    "+str(score)+"    "
     print(rowstr)
 
     #calculate when row team should be spelled
-    row_team_min = 15-math.floor(len(box_pool["teams"][1])/2)
+    row_team_min = 10-math.floor(len(box_pool["teams"][1])/2)
     row_team_max = row_team_min + len(box_pool["teams"][1])
     #now loop through cell assignment and print out the rows
     rowline = 1
     cell_index = 0
+    
     while cell_index < 100:
         if rowline >= row_team_min and rowline < row_team_max:
             rowstr = box_pool["teams"][1][rowline-row_team_min]+" "
         else:
             rowstr = "  "
         
-        if rowline % 3 != 0:
-            print(rowstr)
+        if rowline % 2 != 0:
+            print(rowstr+linestr)
             rowline+=1
             continue
         else:
             #get the row score here
             if rowstr != "  ":
-                rowstr = rowstr +str(box_pool["rows"].pop())
+                rowstr = rowstr[0:1] +str(box_pool["rows"].pop())
             else:
                 rowstr = " " +str(box_pool["rows"].pop())
             #pop off ten from the cell assignment and print the names, truncating if greater than ten
             for i in range(10):
                 cell_owner = cell_assignment[cell_index]
-                if len(cell_owner) > 10:
-                    cell_owner = cell_owner[:10]
+                if len(cell_owner) > 9:
+                    cell_owner = cell_owner[:9]
+                cell_owner = cell_owner
                 cell_index += 1
-                rowstr += f"{cell_owner:^10}"
+                rowstr += "|"
+                rowstr += f"{cell_owner:^9}"
             print(rowstr)
             rowline+=1
 
