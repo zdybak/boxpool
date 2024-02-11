@@ -52,7 +52,7 @@ def assign_party_animals_to_cells_randomly(party_animals):
     #the uneven remainder get marked with FS for now
     while len(available_cells) > 0:
         cell_index = available_cells.pop()
-        final_cell_assignment[cell_index] = "FREE SPACE"
+        final_cell_assignment[cell_index] = "LuckyDuck"
     
     return final_cell_assignment
 
@@ -110,7 +110,12 @@ def print_box_pool(box_pool, cell_assignment):
 
 #main execution
 pa = get_party_animals("guestlist.txt")
-teams = ["Chiefs", "Ravens"]
+teams = ["Chiefs", "49ers"]
 bp = create_box_pool(teams)
 ca = assign_party_animals_to_cells_randomly(pa)
 print_box_pool(bp,ca)
+
+#assign the lucky duck by shuffling the party animals randomly and picking the 7th
+random.shuffle(pa)
+print("")
+print(pa[6]," is the Lucky Duck!")
